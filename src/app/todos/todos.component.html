@@ -1,0 +1,154 @@
+<div class="container-fluid">
+  <div class="row transbox">
+
+    <div class="col-lg-6 border-right">
+
+      <header class="modal-header">
+        <h2>Displaying all ToDos :</h2>
+      </header>
+      
+      <div class="table-responsive modal-body">
+        
+        <section *ngIf="searchedData">
+          <p><code>Searching title...</code> {{searchedData}}</p>
+        </section>
+
+        <div class="table-height tableFixHead">
+          <table
+            class="table table-striped table-bordered table-light"
+            style="justify-content: center; text-align: center"
+          >
+            <colgroup>
+              <col width="1%" />
+              <col width="5%" />
+              <col width="30%" />
+              <col width="5%" />
+            </colgroup>
+            <thead class="thead-dark">
+              <tr>
+                <th>#</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Created</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="
+                  let todo of todoList
+                    | filter:searchedData
+                    | paginate
+                      : {
+                          itemsPerPage: 4,
+                          currentPage: startLinkIndex,
+                          totalItems: totalRows
+                        }
+                "
+              >
+                <td>
+                  <input type="radio" name="r1" (change)="onProvide(todo)" />
+                </td>
+                <td>{{ todo.title }}</td>
+                <td>{{ todo.description }}</td>
+                <td>{{ todo.created }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+      <!-- table-responsive ENDS -->
+
+      <div *ngIf="!searchedData" class="paginationBar">
+        <pagination-controls (pageChange)="startLinkIndex = $event">
+        </pagination-controls>
+      </div>
+
+    </div>
+
+    <div class="col-lg-6">
+      <header class="modal-header">
+        <h2>Add/Remove ToDo :</h2>
+      </header>
+
+      <form #todoForm="ngForm">
+        <div class="form-group">
+          <label>Title : <i class="mandatoryField"> * </i></label>
+          <input
+            type="text"
+            name="title"
+            [(ngModel)]="newTodo.title"
+            #title="ngModel"
+            class="form-control"
+            [class.is-invalid]="title.touched && title.invalid"
+            [class.is-valid]="title.touched && title.valid"
+            placeholder="Todo title.."
+            required
+          />
+
+          <section *ngIf="title.touched && title.invalid">
+            <small *ngIf="title.errors?.['required']" class="text-danger">
+              Title is required.
+            </small>
+          </section>
+        </div>
+        <div class="form-group">
+          <label>Description : <i class="mandatoryField"> * </i></label>
+          <textarea
+            name="desc"
+            cols="30"
+            rows="10"
+            [(ngModel)]="newTodo.desc"
+            #description="ngModel"
+            class="form-control"
+            [class.is-invalid]="description.touched && description.invalid"
+            [class.is-valid]="description.touched && description.valid"
+            placeholder="Todo description.."
+            required
+          ></textarea>
+
+          <section *ngIf="description.touched && description.invalid">
+            <small *ngIf="description.errors?.['required']" class="text-danger">
+              Description is required.
+            </small>
+          </section>
+        </div>
+
+        <div class="form-group">
+          <section *ngIf="selectedTodo.length == 0">
+            <button
+              [disabled]="todoForm.invalid"
+              (click)="onSubmit()"
+              class="btn btn-sm btn-success"
+            >
+              Add
+            </button>
+
+            &nbsp;|&nbsp;
+
+            <input type="reset" class="btn btn-sm btn-warning" />
+          </section>
+
+          <section *ngIf="selectedTodo.length != 0">
+            <button
+              [disabled]="todoForm.invalid"
+              (click)="onUpdate()"
+              class="btn btn-sm btn-warning"
+            >
+              Update
+            </button>
+
+            &nbsp;|&nbsp;
+
+            <button (click)="onDelete()" class="btn btn-sm btn-danger">
+              Delete
+            </button>
+          </section>
+        </div>
+      </form>
+    </div>
+    <!-- input todo-form ENDS -->
+  </div>
+  <!-- class row ENDS -->
+</div>
+<!-- class container ENDS -->

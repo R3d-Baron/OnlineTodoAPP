@@ -1,0 +1,24 @@
+
+  
+  /*.form-control {
+    background: #212529;
+    border-color: #545454;
+  }
+  
+  .form-control:focus {
+    background: #212529;
+  }*/
+  
+  footer {
+    background: #212529;
+  }
+  
+  
+  /* ==========================================
+      CUSTOM UTILS CLASSES
+    ========================================== */
+    /* body, html {
+      height: 100%;
+    } */
+  
+   

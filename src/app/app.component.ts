@@ -7,4 +7,20 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'OnlineTodoAPP';
+
+  // searchedData:any = '';
+
+  message:any = [];
+
+  // onChange(searched_parent:any){
+
+  //   console.log(`from app comp : ${searched_parent}`);
+
+  //   this.message = {
+  //     'pm':searched_parent
+  //   }
+  // }
+
+
+  
 }
